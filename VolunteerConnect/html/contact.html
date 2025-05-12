@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Us | VolunteerConnect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="page-container">
+  <!-- NAV -->
+  <nav class="navbar">…</nav>
+
+  <main>
+    <section class="contact-section">
+      <div class="container">
+        <h1 class="text-center">Contact Us</h1>
+        <p class="text-center section-description">
+          Have questions? Fill the form or use the info below.
+        </p>
+
+        <div class="contact-container">
+          <div class="contact-form-container">
+            <div id="success-message" class="success-message hidden">
+              <h3>Message Sent!</h3>
+              <p>We’ll get back to you soon.</p>
+            </div>
+            <form id="contact-form" class="contact-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Your Name</label>
+                  <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Your Email</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <select id="subject" name="subject" required>
+                  <option value="">Select…</option>
+                  <option>General Inquiry</option>
+                  <option>Volunteer Opportunities</option>
+                  <option>Org Registration</option>
+                  <option>Tech Support</option>
+                  <option>Feedback</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+              </div>
+              <button id="submit-btn" class="btn btn-primary btn-block" type="submit">
+                <span id="submit-text">Send Message</span>
+                <span id="submit-spinner" class="spinner hidden">
+                  <i class="fas fa-spinner fa-spin"></i>
+                </span>
+              </button>
+            </form>
+          </div>
+
+          <div class="contact-info-container">
+            <div class="contact-info-box">
+              <h3>Contact Information</h3>
+              <div class="contact-detail">
+                <i class="fas fa-envelope"></i>
+                <div>
+                  <p class="detail-label">Email</p>
+                  <a href="mailto:info@volunteerconnect.com">info@volunteerconnect.com</a>
+                </div>
+              </div>
+              <div class="contact-detail">
+                <i class="fas fa-phone"></i>
+                <div>
+                  <p class="detail-label">Phone</p>
+                  <a href="tel:+96170956293">+961 70 956 293</a>
+                </div>
+              </div>
+              <div class="contact-detail">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                  <p class="detail-label">Address</p>
+                  <p>Volunteer Street<br>Hamra, Beirut, Lebanon</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-info-box">
+              <h3>Office Hours</h3>
+              <ul class="office-hours">
+                <li><span>Mon–Fri:</span><span>9 AM–5 PM</span></li>
+                <li><span>Sat:</span><span>10 AM–2 PM</span></li>
+                <li><span>Sun:</span><span>Closed</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">…</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

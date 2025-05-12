@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Volunteer Opportunities | VolunteerConnect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="page-container">
+  <!-- NAV (same as index) -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="logo">VolunteerConnect</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="opportunities.html" class="active">Opportunities</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="auth-buttons">
+        <a href="login.html" class="btn btn-outline">Log In</a>
+        <a href="signup.html" class="btn btn-primary">Sign Up</a>
+      </div>
+      <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="mobile-menu">
+      <a href="index.html">Home</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+     <div class="auth-buttons">
+  <a href="login.html"   class="btn btn-outline" id="nav-login">Log In</a>
+  <a href="signup.html"  class="btn btn-primary" id="nav-signup">Sign Up</a>
+  <a href="profile.html" class="btn btn-outline hidden" id="nav-profile">Profile</a>
+  <button             class="btn btn-primary hidden"  id="nav-logout">Log Out</button>
+</div>
+
+    </div>
+  </nav>
+
+  <main>
+    <section class="opportunities-section">
+      <div class="container">
+        <h1 class="text-center">Volunteer Opportunities</h1>
+        <p class="text-center section-description">
+          Browse through our curated list of volunteer opportunities and find the perfect way to help.
+        </p>
+
+        <div class="search-filter-box">
+          <div class="search-row">
+            <div class="search-input-container">
+              <i class="fas fa-search"></i>
+              <input id="search-input" type="text" placeholder="Search for opportunities…">
+            </div>
+            <button class="btn btn-primary search-btn">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="category">Category</label>
+              <select id="category">
+                <option value="">All Categories</option>
+                <option value="Education">Education</option>
+                <option value="Environment">Environment</option>
+                <option value="Health">Health</option>
+                <option value="Animals">Animals</option>
+                <option value="Community">Community</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="location">Location</label>
+              <select id="location">
+                <option value="">All Locations</option>
+                <option value="Local">Local</option>
+                <option value="Remote">Remote</option>
+                <option value="International">International</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="commitment">Commitment</label>
+              <select id="commitment">
+                <option value="">Any Commitment</option>
+                <option value="One-time">One-time</option>
+                <option value="Short-term">Short-term</option>
+                <option value="Ongoing">Ongoing</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="sort">Sort By</label>
+              <select id="sort">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="alphabetical">A-Z</option>
+                <option value="popular">Most Popular</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter-actions">
+            <button class="advanced-filter-btn">
+              <i class="fas fa-filter"></i> Advanced Filters
+            </button>
+            <button class="clear-filter-btn">Clear All Filters</button>
+          </div>
+        </div>
+
+        <div class="results-section">
+          <div class="results-header">
+            <p class="results-count">
+              Showing <span class="font-semibold">24</span> opportunities
+            </p>
+            <div class="view-toggle">
+              <span>View:</span>
+              <button class="view-btn grid-view active"><i class="fas fa-th"></i></button>
+              <button class="view-btn list-view"><i class="fas fa-list"></i></button>
+            </div>
+          </div>
+
+          <div class="opportunities-grid">
+            <!-- JS will populate -->
+          </div>
+
+          <div class="pagination">
+            <button class="pagination-btn prev-btn">Previous</button>
+            <button class="pagination-btn page-btn active">1</button>
+            <button class="pagination-btn page-btn">2</button>
+            <button class="pagination-btn page-btn">3</button>
+            <span class="pagination-ellipsis">…</span>
+            <button class="pagination-btn page-btn">8</button>
+            <button class="pagination-btn next-btn">Next</button>
+          </div>
+        </div>
+
+        <div class="newsletter-box">
+          <h2>Stay Updated</h2>
+          <p>Subscribe to our newsletter to receive updates on new volunteer opportunities.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" required>
+            <button class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (same as index) -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <!-- ... same content ... -->
+    </div>
+    <div class="footer-bottom text-center">
+      &copy; <span id="current-year"></span> VolunteerConnect. All rights reserved.
+    </div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        integrity="sha512-VZp5jwPZvPE4x..." crossorigin="anonymous"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

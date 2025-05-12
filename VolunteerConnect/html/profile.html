@@ -1,0 +1,51 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+  header('Location: login.php');
+  exit;
+}
+require 'api/config.php';
+$stmt = $pdo->prepare("SELECT first_name,last_name,email,created_at FROM users WHERE id=?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Your Profile | VolunteerConnect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="page-container">
+    <nav class="navbar">
+      <div class="container">
+        <!-- same nav-links… -->
+        <div class="auth-buttons">
+          <a href="profile.php" class="btn btn-outline">Profile</a>
+          <a href="logout.php"  class="btn btn-primary">Log Out</a>
+        </div>
+      </div>
+    </nav>
+    
+    <main>
+      <section class="signup-section">
+        <div class="container auth-form-container">
+          <h1>Your Profile</h1>
+          <p><strong>First Name:</strong> <?=htmlspecialchars($user['first_name'])?></p>
+          <p><strong>Last Name:</strong> <?=htmlspecialchars($user['last_name'])?></p>
+          <p><strong>Email:</strong> <?=htmlspecialchars($user['email'])?></p>
+          <p><strong>Member Since:</strong> <?=date('F j, Y',strtotime($user['created_at']))?></p>
+        </div>
+      </section>
+    </main>
+    
+    <footer class="footer">…</footer>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
