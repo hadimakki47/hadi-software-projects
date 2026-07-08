@@ -3,8 +3,6 @@ require_once __DIR__ . '/../includes/db_config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-include __DIR__ . '/../templates/header.php';
-
 // Redirect if not logged in
 if (!isLoggedIn()) {
     $_SESSION['message'] = "Please login to book tickets";
@@ -83,6 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 }
+
+include __DIR__ . '/../templates/header.php';
 ?>
 
 <style>
@@ -300,4 +300,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php
 include __DIR__ . '/../templates/footer.php';
-?> 

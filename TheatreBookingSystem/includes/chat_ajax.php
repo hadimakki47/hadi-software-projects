@@ -425,4 +425,3 @@ function closeChat($conn) {
         sendJsonResponse(false, "Could not close chat session. Please try again.");
     }
 }
-?> 

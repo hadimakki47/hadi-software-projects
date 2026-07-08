@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS coupons (
 -- Create booking_coupons table to track which bookings used which coupons
 CREATE TABLE IF NOT EXISTS booking_coupons (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    booking_id INT NOT NULL,
+    booking_id INT(6) UNSIGNED NOT NULL,
     coupon_id INT NOT NULL,
     discount_amount DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -92,13 +92,13 @@ CREATE TABLE IF NOT EXISTS booking_coupons (
     FOREIGN KEY (coupon_id) REFERENCES coupons(id) ON DELETE CASCADE
 );
 
--- Insert default admin user
+-- Insert default admin user (demo credentials: admin / admin123)
 INSERT IGNORE INTO users (username, password, email, role) 
-VALUES ('admin', '$2y$10$WYrjXcZM.aWFYBGWDlpqJ.HnTCF3kYbQNHyBMcqN09K0QdtnQvZbq', 'admin@theatre.com', 'admin');
+VALUES ('admin', '$2y$10$LUMMIUo/HL1uczCCTNuJOue3tx1oU.lj0C1W2PSX3sBZSh9PTel4G', 'admin@theatre.com', 'admin');
 
--- Insert default staff user
+-- Insert default staff user (demo credentials: staff / staff123)
 INSERT IGNORE INTO users (username, password, email, role) 
-VALUES ('staff', '$2y$10$jC4XobO5LU9BXqPmp/HPb.zdD0VMUJzSPQOGAoTTUcJfrvJ8Qwn7i', 'staff@theatre.com', 'staff');
+VALUES ('staff', '$2y$10$067st4eOa9yJBlGU3EKGe.eWD1OVv2R8DdBC94Y8dtiqKG3hCn0na', 'staff@theatre.com', 'staff');
 
 -- Create support conversations table
 CREATE TABLE IF NOT EXISTS support_conversations (
@@ -122,3 +122,23 @@ CREATE TABLE IF NOT EXISTS support_messages (
     FOREIGN KEY (conversation_id) REFERENCES support_conversations(id) ON DELETE CASCADE,
     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
 ); 
+-- Create chat widget tables (used by standalone_chat.php)
+CREATE TABLE IF NOT EXISTS chat_sessions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    session_id VARCHAR(64) NOT NULL UNIQUE,
+    user_id INT(6) UNSIGNED NOT NULL,
+    status ENUM('active', 'closed') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS chat_messages (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(6) UNSIGNED NOT NULL,
+    message TEXT NOT NULL,
+    is_from_user BOOLEAN DEFAULT TRUE,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

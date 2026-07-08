@@ -212,4 +212,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php include __DIR__ . '/../../templates/admin_footer.php'; ?> 
+<?php include __DIR__ . '/../../templates/admin_footer.php'; 

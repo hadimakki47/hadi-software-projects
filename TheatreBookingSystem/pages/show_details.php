@@ -3,8 +3,6 @@ require_once __DIR__ . '/../includes/db_config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-include __DIR__ . '/../templates/header.php';
-
 // Check if show ID is provided
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     $_SESSION['message'] = "Invalid show ID";
@@ -26,6 +24,8 @@ if (!$show) {
 
 // Get showtimes for this show
 $showtimes = getShowtimes($show_id);
+
+include __DIR__ . '/../templates/header.php';
 ?>
 
 <div class="container">
@@ -93,4 +93,3 @@ $showtimes = getShowtimes($show_id);
 
 <?php
 include __DIR__ . '/../templates/footer.php';
-?> 

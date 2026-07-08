@@ -125,4 +125,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?> 
+<?php include __DIR__ . '/../templates/footer.php'; 

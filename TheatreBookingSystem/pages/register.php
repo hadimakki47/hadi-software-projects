@@ -3,8 +3,6 @@ require_once __DIR__ . '/../includes/db_config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-include __DIR__ . '/../templates/header.php';
-
 // Check if already logged in
 if (isLoggedIn()) {
     $_SESSION['message'] = "You are already logged in!";
@@ -50,6 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+
+include __DIR__ . '/../templates/header.php';
 ?>
 
 <div class="container">
@@ -86,4 +86,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <p>Already have an account? <a href="/pages/login.php">Login here</a></p>
 </div>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?> 
+<?php include __DIR__ . '/../templates/footer.php'; 

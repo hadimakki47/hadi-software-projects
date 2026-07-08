@@ -47,7 +47,7 @@ try {
     $servername = getenv('DB_HOST') ?: '127.0.0.1';
     $port       = (int)(getenv('DB_PORT') ?: 8889);
     $username   = getenv('DB_USER') ?: 'root';
-    $password   = getenv('DB_PASS') ?: 'root';
+    $password   = getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'root';
     $dbname     = getenv('DB_NAME') ?: 'theatre_booking';
     
     // Enable error reporting for the connection attempt
@@ -61,11 +61,12 @@ try {
     // Set character set
     mysqli_set_charset($conn, "utf8mb4");
     
-    // Get action and user ID
+    // Get action and user ID — chat requires a logged-in user
     $action = isset($_POST['action']) ? $_POST['action'] : '';
-    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1; // Default to admin user
-    
-    error_log("Processing action: $action for user: $userId");
+    if (!isset($_SESSION['user_id'])) {
+        sendJsonResponse(false, 'Please log in to use the support chat.');
+    }
+    $userId = (int)$_SESSION['user_id'];
     
     // Process the action
     switch ($action) {
@@ -306,4 +307,3 @@ function closeChat($conn) {
 if (ob_get_level() > 0) {
     ob_end_clean();
 }
-?> 

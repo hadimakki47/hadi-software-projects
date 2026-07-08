@@ -1,6 +1,10 @@
 *.zip
 *.rar
-
-*.zip
-*.rar
 __MACOSX/
+.DS_Store
+
+# PHP dependencies & tooling
+vendor/
+composer.phar
+.phpunit.cache/
+.phpunit.result.cache

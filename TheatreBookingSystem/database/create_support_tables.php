@@ -104,4 +104,3 @@ if (tableExists($conn, 'support_conversations') && tableExists($conn, 'support_m
 }
 
 echo "<br>Done! <a href='/pages/admin/admin_support.php'>Go to Support Admin</a>";
-?>

@@ -2,7 +2,7 @@
 // Database configuration (env-configurable, MAMP defaults)
 $servername = getenv('DB_HOST') ?: 'localhost';
 $username   = getenv('DB_USER') ?: 'root';
-$password   = getenv('DB_PASS') ?: 'root';
+$password   = getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'root';
 $port       = (int)(getenv('DB_PORT') ?: 8889);
 
 // Create connection
@@ -259,4 +259,3 @@ if (mysqli_query($conn, $sql)) {
 
 mysqli_close($conn);
 echo "Database setup completed";
-?> 

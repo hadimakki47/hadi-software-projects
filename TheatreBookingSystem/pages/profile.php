@@ -10,26 +10,22 @@ if (!isLoggedIn()) {
 }
 
 // Get user info
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM users WHERE id = $user_id";
-$result = mysqli_query($conn, $sql);
-$user = mysqli_fetch_assoc($result);
+$user_id = (int)$_SESSION['user_id'];
+$user = db_row($conn, "SELECT * FROM users WHERE id = ?", 'i', [$user_id]);
 
 // Get user's bookings
 $bookings = getUserBookings($user_id);
 
 // Get active coupons for display
-$sql = "SELECT * FROM coupons 
-        WHERE is_active = 1 
-        AND valid_from <= CURDATE() 
-        AND valid_to >= CURDATE()
-        AND (max_uses IS NULL OR times_used < max_uses)
-        ORDER BY valid_to ASC";
-$result = mysqli_query($conn, $sql);
-$active_coupons = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    $active_coupons[] = $row;
-}
+$active_coupons = db_rows(
+    $conn,
+    "SELECT * FROM coupons
+     WHERE is_active = 1
+     AND valid_from <= CURDATE()
+     AND valid_to >= CURDATE()
+     AND (max_uses IS NULL OR times_used < max_uses)
+     ORDER BY valid_to ASC"
+);
 
 include __DIR__ . '/../templates/header.php';
 ?>
@@ -296,4 +292,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?> 
+<?php include __DIR__ . '/../templates/footer.php'; 

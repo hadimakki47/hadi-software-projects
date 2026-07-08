@@ -3,9 +3,7 @@ require_once __DIR__ . '/../includes/db_config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-include __DIR__ . '/../templates/header.php';
-
-// Check if already logged in
+// Check if already logged in (before any output so redirects work)
 if (isLoggedIn()) {
     $_SESSION['message'] = "You are already logged in!";
     $_SESSION['message_type'] = "error";
@@ -17,7 +15,7 @@ if (isLoggedIn()) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
-    
+
     if (empty($username) || empty($password)) {
         $error = "Username and password are required";
     } else {
@@ -31,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+include __DIR__ . '/../templates/header.php';
 ?>
 
 <div class="container">
@@ -57,4 +57,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p>Don't have an account? <a href="/pages/register.php">Register here</a></p>
 </div>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?> 
+<?php include __DIR__ . '/../templates/footer.php'; 

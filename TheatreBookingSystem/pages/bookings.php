@@ -3,9 +3,7 @@ require_once __DIR__ . '/../includes/db_config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-include __DIR__ . '/../templates/header.php';
-
-// Redirect if not logged in
+// Redirect if not logged in (must run before any output)
 if (!isLoggedIn()) {
     $_SESSION['message'] = "Please login to view your bookings";
     $_SESSION['message_type'] = "error";
@@ -15,6 +13,8 @@ if (!isLoggedIn()) {
 
 $user_id = $_SESSION['user_id'];
 $bookings = getUserBookings($user_id);
+
+include __DIR__ . '/../templates/header.php';
 ?>
 
 <div class="container">
@@ -67,4 +67,4 @@ $bookings = getUserBookings($user_id);
     <?php endif; ?>
 </div>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?> 
+<?php include __DIR__ . '/../templates/footer.php'; 

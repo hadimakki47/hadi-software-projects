@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    name: PHP syntax (all projects)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: php -l every file
+        run: |
+          status=0
+          while IFS= read -r -d '' file; do
+            php -l "$file" > /dev/null || status=1
+          done < <(find . -name '*.php' -not -path '*/vendor/*' -print0)
+          exit $status
+
+  test:
+    name: PHPUnit (Theatre Booking System)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: TheatreBookingSystem
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - '3306:3306'
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mysqli
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Unit tests
+        run: vendor/bin/phpunit --testsuite unit
+
+      - name: Integration tests (against MySQL service)
+        run: vendor/bin/phpunit --testsuite integration
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: '3306'
+          DB_USER: root
+          DB_PASS: root
+
+  docker-smoke:
+    name: Docker compose smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Boot the stack
+        working-directory: TheatreBookingSystem
+        run: docker compose up -d
+
+      - name: Wait for the app to come up
+        working-directory: TheatreBookingSystem
+        run: |
+          for i in $(seq 1 90); do
+            if curl -fs http://localhost:8082/index.php > /dev/null 2>&1; then
+              echo "App is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "App failed to start" >&2
+          docker compose logs
+          exit 1
+
+      - name: Homepage renders without errors
+        run: |
+          body=$(curl -fs http://localhost:8082/index.php)
+          echo "$body" | grep -qi "theatre"
+          if echo "$body" | grep -qiE "fatal error|database connection error"; then
+            echo "Homepage contains errors" >&2
+            exit 1
+          fi
+
+      - name: Login page renders
+        run: curl -fs http://localhost:8082/pages/login.php | grep -qi "login"

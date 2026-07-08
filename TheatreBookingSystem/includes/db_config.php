@@ -4,7 +4,7 @@
 $servername = getenv('DB_HOST') ?: '127.0.0.1'; // use IP for TCP connection
 $port       = (int)(getenv('DB_PORT') ?: 8889); // MAMP default port
 $username   = getenv('DB_USER') ?: 'root';
-$password   = getenv('DB_PASS') ?: 'root';
+$password   = getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'root'; // empty password is valid
 $dbname     = getenv('DB_NAME') ?: 'theatre_booking';
 
 // Determine if this is an AJAX request
@@ -77,4 +77,3 @@ function ensure_db_connected() {
     
     return $conn;
 }
-?> 

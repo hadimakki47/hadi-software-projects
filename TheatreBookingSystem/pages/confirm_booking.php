@@ -3,8 +3,6 @@ require_once __DIR__ . '/../includes/db_config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-include __DIR__ . '/../templates/header.php';
-
 if (!isLoggedIn()) {
     header('Location: /pages/login.php');
     exit();
@@ -133,6 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_booking'])) {
         $error = $payment_error;
     }
 }
+
+include __DIR__ . '/../templates/header.php';
 ?>
 
 <div class="container">
@@ -379,4 +379,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_booking'])) {
     </div>
 </div>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?> 
+<?php include __DIR__ . '/../templates/footer.php'; 

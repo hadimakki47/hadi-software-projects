@@ -102,4 +102,4 @@ $featuredShows = array_slice($shows, 0, 3); // Get first 3 shows for featured
     </section>
 </div>
 
-<?php include 'templates/footer.php'; ?> 
+<?php include 'templates/footer.php'; 

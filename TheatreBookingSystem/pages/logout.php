@@ -13,4 +13,3 @@ $_SESSION['message_type'] = "success";
 // Redirect to the login page
 header("Location: /index.php");
 exit();
-?> 
