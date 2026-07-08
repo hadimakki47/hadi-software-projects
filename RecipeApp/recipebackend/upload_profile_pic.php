@@ -10,6 +10,13 @@ if (!$username || !$image_data) {
     exit;
 }
 
+// Only a logged-in user may change their own picture
+if (!isset($_SESSION['username']) || $_SESSION['username'] !== $username) {
+    http_response_code(403);
+    echo "Not authorized";
+    exit;
+}
+
 
 $data = base64_decode($image_data);
 if ($data === false) {
@@ -36,7 +43,8 @@ $stmt->bind_param('ss', $webPath, $username);
 if ($stmt->execute()) {
     echo "Success";
 } else {
-    echo "DB error: " . $stmt->error;
+    error_log('upload_profile_pic execute failed: ' . $stmt->error);
+    echo "Error";
 }
 $stmt->close();
 $con->close();

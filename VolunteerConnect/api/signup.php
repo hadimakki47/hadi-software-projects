@@ -34,11 +34,8 @@ try {
         http_response_code(409);
         echo json_encode(['error' => 'Email already exists']);
     } else {
-        // for any other DB error, return the real message (helpful for debugging)
+        error_log('signup failed: ' . $e->getMessage());
         http_response_code(500);
-        echo json_encode([
-          'error'   => 'Database error',
-          'details' => $e->getMessage()
-        ]);
+        echo json_encode(['error' => 'Database error']);
     }
 }

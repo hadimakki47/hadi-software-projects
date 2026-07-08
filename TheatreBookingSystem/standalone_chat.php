@@ -43,15 +43,12 @@ function sendJsonResponse($success, $message = '', $data = []) {
 
 // Direct database connection - no includes
 try {
-    // Log attempt to connect
-    error_log("Attempting to connect to database: 127.0.0.1:8889");
-    
-    // Connect directly to MAMP MySQL
-    $servername = "127.0.0.1"; 
-    $port = 8889;
-    $username = "root";
-    $password = "root";
-    $dbname = "theatre_booking";
+    // Credentials from environment, with local MAMP defaults
+    $servername = getenv('DB_HOST') ?: '127.0.0.1';
+    $port       = (int)(getenv('DB_PORT') ?: 8889);
+    $username   = getenv('DB_USER') ?: 'root';
+    $password   = getenv('DB_PASS') ?: 'root';
+    $dbname     = getenv('DB_NAME') ?: 'theatre_booking';
     
     // Enable error reporting for the connection attempt
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);

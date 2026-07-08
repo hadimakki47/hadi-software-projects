@@ -1,0 +1,40 @@
+services:
+  api:
+    image: php:8.3-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./recipebackend:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_USER: recipe
+      DB_PASS: recipe
+      DB_NAME: recipeapp
+      DB_PORT: "3306"
+    depends_on:
+      db:
+        condition: service_healthy
+    # mysqli is not bundled in the official image
+    command: >
+      bash -c "docker-php-ext-install mysqli > /dev/null 2>&1 || true;
+               docker-php-ext-enable mysqli > /dev/null 2>&1 || true;
+               apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: recipeapp
+      MYSQL_USER: recipe
+      MYSQL_PASSWORD: recipe
+    volumes:
+      - ./recipeapp.sql:/docker-entrypoint-initdb.d/recipeapp.sql:ro
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  db_data:

@@ -1,5 +1,6 @@
 <?php
 // update_profile.php
+session_start();
 header('Content-Type: text/plain; charset=utf-8');
 require __DIR__ . '/connection.php';
 
@@ -14,6 +15,13 @@ if ($username === '' || $fname === '' || $lname === '' || $pnumber === '') {
     exit;
 }
 
+// Only a logged-in user may edit their own profile
+if (!isset($_SESSION['username']) || $_SESSION['username'] !== $username) {
+    http_response_code(403);
+    echo 'Not authorized';
+    exit;
+}
+
 // Update only the editable columns
 $stmt = $con->prepare(
     "UPDATE users 
@@ -21,7 +29,8 @@ $stmt = $con->prepare(
      WHERE username = ?"
 );
 if (! $stmt) {
-    echo 'Error: ' . $con->error;
+    error_log('update_profile prepare failed: ' . $con->error);
+    echo 'Error';
     exit;
 }
 $stmt->bind_param('ssss', $fname, $lname, $pnumber, $username);
@@ -29,7 +38,8 @@ $stmt->bind_param('ssss', $fname, $lname, $pnumber, $username);
 if ($stmt->execute()) {
     echo 'Success';
 } else {
-    echo 'Error: ' . $stmt->error;
+    error_log('update_profile execute failed: ' . $stmt->error);
+    echo 'Error';
 }
 
 $stmt->close();

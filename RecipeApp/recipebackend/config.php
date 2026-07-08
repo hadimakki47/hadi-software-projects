@@ -1,16 +1,10 @@
 <?php
-// config.php
+// config.php — JSON API entry point config.
+// Reuses the shared connection so credentials live in one place.
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=UTF-8');
 
-$host   = 'localhost';
-$db     = 'recipeapp';
-$user   = 'root';
-$pass   = '';
+require_once __DIR__ . '/connection.php';
 
-$mysqli = new mysqli($host, $user, $pass, $db);
-if ($mysqli->connect_errno) {
-  http_response_code(500);
-  echo json_encode(['error' => 'DB connection failed']);
-  exit;
-}
+// Endpoints written against config.php expect $mysqli.
+$mysqli = $con;

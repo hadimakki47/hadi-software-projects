@@ -1,32 +1,26 @@
-# hadi-software-projects
-# Hadi Makki's Software Engineering Portfolio
+# Hadi Makki — Software Engineering Portfolio
 
-This repository showcases a selection of my university-level software projects, including mobile apps, web platforms, and database systems.
+University-level software projects: web platforms, a mobile app backend, and database systems. Every project in this repo ships with its own README and a one-command Docker setup.
 
----
+| Project | What it is | Stack |
+|---|---|---|
+| [🎭 Theatre Booking System](TheatreBookingSystem/) | Seat booking platform with transactions, coupons, admin panel, revenue reports, and live support chat | PHP, MySQL, JS/AJAX |
+| [🌍 VolunteerConnect](VolunteerConnect/) | Web platform connecting volunteers to NGOs and community events, with favorites, search filters, and accounts | PHP (PDO), MySQL, jQuery |
+| [🍲 Recipe App backend](RecipeApp/) | REST API for an Android recipe app: auth, recipes, reviews, image uploads | PHP, MySQL |
+| [👨‍⚕️ Patient Medical Report System](https://github.com/Sami482005/Patient-Medical-Report) | Patient information, appointments, and prescriptions management (external repo, team project) | Java, SQL |
 
-## 1. 👨‍⚕️ Patient Medical Report System
-- **Description**: A Java-based system to manage patient information, appointments, and prescriptions.
-- **Technologies**: Java, SQL
-- **GitHub Link**: [View Project][https://github.com/Sami482005/Patient-Medical-Report]
+## Highlights
 
----
+- **Security-conscious PHP**: prepared statements, bcrypt password hashing, session-based authorization checks, no error details leaked to clients
+- **Transactional integrity**: theatre bookings insert the booking, its seat details, and seat locks atomically
+- **Runs anywhere**: each project has a `docker-compose.yml` that boots PHP + MySQL and imports the schema automatically
 
-## 2. 🍲 Recipe App (Mobile Application)
-- **Description**: An Android app to browse, save, and manage recipes with images.
-- **Technologies**: Java, XML, Android Studio
-- **Folder**: `/RecipeApp`
+```bash
+cd TheatreBookingSystem && docker compose up   # http://localhost:8082
+cd VolunteerConnect     && docker compose up   # http://localhost:8081
+cd RecipeApp            && docker compose up   # http://localhost:8080 (API)
+```
 
----
+## About
 
-## 3. 🌍 Volunteer Connect Website
-- **Description**: A web platform connecting volunteers to NGOs and community events.
-- **Technologies**: HTML, CSS, PHP, MySQL
-- **Folder**: `/VolunteerConnect`
-
----
-
-## 4. 🎭 Haraty Theatre Booking System (Software Engineering)
-- **Description**: A web-based platform for booking theatre events with a focus on usability, security, and system reliability. Functional and non-functional requirements were fully analyzed, implemented, and tested.
-- **Technologies**: HTML, CSS, PHP, MySQL
-- **Folder**: `/TheatreV2`
+I'm a Computer Science graduate. You can reach me at makkihadi2@gmail.com — more projects on [my GitHub profile](https://github.com/hadimakki47).

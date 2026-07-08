@@ -1,8 +1,5 @@
-<?php  
+<?php
 require_once 'connection.php';
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 // Check if POST variables exist
 if (isset($_POST['username']) && isset($_POST['Password']) && isset($_POST['Email'])) {
@@ -23,17 +20,20 @@ if (isset($_POST['username']) && isset($_POST['Password']) && isset($_POST['Emai
     $stmt = $con->prepare($query);
 
     if (!$stmt) {
-        echo "Error preparing statement: " . $con->error;
         error_log("Prepare failed: " . $con->error);
+        echo "Error";
         exit;
     }
     $stmt->bind_param("sss", $username, $hashedPassword, $Email);
 
     if ($stmt->execute()) {
         echo "Success";
+    } else if ($con->errno == 1062) {
+        // Duplicate entry (username/email already taken)
+        echo "Username or email already exists";
     } else {
-        echo "Error: " . $stmt->error;
         error_log("Execute failed: " . $stmt->error);
+        echo "Error";
     }
 
     $stmt->close();

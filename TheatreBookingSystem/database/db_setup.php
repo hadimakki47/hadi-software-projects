@@ -1,11 +1,12 @@
 <?php
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "root";
+// Database configuration (env-configurable, MAMP defaults)
+$servername = getenv('DB_HOST') ?: 'localhost';
+$username   = getenv('DB_USER') ?: 'root';
+$password   = getenv('DB_PASS') ?: 'root';
+$port       = (int)(getenv('DB_PORT') ?: 8889);
 
 // Create connection
-$conn = mysqli_connect($servername, $username, $password);
+$conn = mysqli_connect($servername, $username, $password, '', $port);
 
 // Check connection
 if (!$conn) {

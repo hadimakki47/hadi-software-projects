@@ -1,10 +1,11 @@
 <?php
-// Database configuration for MAMP
-$servername = "127.0.0.1"; // Always use IP address for TCP connection
-$port = 8889; // MAMP default port
-$username = "root";
-$password = "root";
-$dbname = "theatre_booking";
+// Database configuration — values come from environment variables so the
+// same code runs locally (MAMP defaults) and inside Docker without edits.
+$servername = getenv('DB_HOST') ?: '127.0.0.1'; // use IP for TCP connection
+$port       = (int)(getenv('DB_PORT') ?: 8889); // MAMP default port
+$username   = getenv('DB_USER') ?: 'root';
+$password   = getenv('DB_PASS') ?: 'root';
+$dbname     = getenv('DB_NAME') ?: 'theatre_booking';
 
 // Determine if this is an AJAX request
 $is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 

@@ -1,0 +1,40 @@
+services:
+  web:
+    image: php:8.3-apache
+    ports:
+      - "8082:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: theatre
+      DB_PASS: theatre
+      DB_NAME: theatre_booking
+    depends_on:
+      db:
+        condition: service_healthy
+    # mysqli is not bundled in the official image
+    command: >
+      bash -c "docker-php-ext-install mysqli > /dev/null 2>&1 || true;
+               docker-php-ext-enable mysqli > /dev/null 2>&1 || true;
+               apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: theatre_booking
+      MYSQL_USER: theatre
+      MYSQL_PASSWORD: theatre
+    volumes:
+      - ./database/db_init.sql:/docker-entrypoint-initdb.d/db_init.sql:ro
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  db_data:

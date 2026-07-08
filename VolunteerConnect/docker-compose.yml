@@ -1,0 +1,40 @@
+services:
+  web:
+    image: php:8.3-apache
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: volunteer
+      DB_PASS: volunteer
+      DB_NAME: volunteer_connect
+    depends_on:
+      db:
+        condition: service_healthy
+    # pdo_mysql is not bundled in the official image
+    command: >
+      bash -c "docker-php-ext-install pdo_mysql > /dev/null 2>&1 || true;
+               docker-php-ext-enable pdo_mysql > /dev/null 2>&1 || true;
+               apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: volunteer_connect
+      MYSQL_USER: volunteer
+      MYSQL_PASSWORD: volunteer
+    volumes:
+      - ./volunteer_connect.sql:/docker-entrypoint-initdb.d/volunteer_connect.sql:ro
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  db_data:

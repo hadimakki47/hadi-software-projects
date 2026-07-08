@@ -146,37 +146,6 @@ function createBooking($user_id, $showtime_id, $seat_ids, $total_amount, $paymen
     } catch (Exception $e) {
         error_log("Booking transaction failed: " . $e->getMessage());
         mysqli_rollback($conn);
-        
-        // For testing/demo purposes only - create a simplified booking
-        if (defined('TESTING_MODE') || isset($_GET['demo']) || true) {
-            error_log("Attempting simplified booking for testing");
-            
-            // Simple direct insert without transaction
-            $sql = "INSERT INTO bookings (user_id, showtime_id, total_amount, payment_status) 
-                   VALUES ($user_id, $showtime_id, $total_amount, 'Completed')";
-            if (mysqli_query($conn, $sql)) {
-                $test_booking_id = mysqli_insert_id($conn);
-                error_log("Created test booking ID: " . $test_booking_id);
-                
-                // Still try to mark seats as booked in simplified mode
-                foreach ($seat_ids as $seat_id) {
-                    $seat_id = (int)$seat_id;
-                    
-                    // Insert booking detail
-                    $sql = "INSERT INTO booking_details (booking_id, seat_id) VALUES ($test_booking_id, $seat_id)";
-                    mysqli_query($conn, $sql);
-                    
-                    // Mark seat as booked
-                    $sql = "UPDATE seats SET is_booked = 1 WHERE id = $seat_id";
-                    mysqli_query($conn, $sql);
-                }
-                
-                return $test_booking_id;
-            } else {
-                error_log("Even simplified booking failed: " . mysqli_error($conn));
-            }
-        }
-        
         return false;
     }
 }
@@ -588,12 +557,9 @@ function validateCoupon($code, $total_amount) {
             AND is_active = 1
             AND valid_from <= '$current_date'
             AND valid_to >= '$current_date'
-            AND min_purchase <= $total_amount";
-    
-    if ($max_uses_check = " AND (max_uses IS NULL OR times_used < max_uses)") {
-        $sql .= $max_uses_check;
-    }
-    
+            AND min_purchase <= $total_amount
+            AND (max_uses IS NULL OR times_used < max_uses)";
+
     $result = $conn->query($sql);
     
     if ($result->num_rows == 1) {
